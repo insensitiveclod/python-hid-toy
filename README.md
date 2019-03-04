@@ -84,7 +84,32 @@ $ python3 hid-test.py
 ```
 
 
-*TODO* Write about:
-* How to set permissions
-* How to decouple a device from the kernel/shell's input-handler
+## Prevent keyboard output to X
 
+You most likely want to be able to run a python script in the background and have it read the keyboard-output without it going to the current console/shell at the same time.
+
+In X it is straightforward how to do this using 'xinput'. For example, disabling the USB-toy mentioned above (HID 13ba:0001), you would do:
+```
+$ xinput 
+⎡ Virtual core pointer                    	id=2	[master pointer  (3)]
+⎜   ↳ Virtual core XTEST pointer              	id=4	[slave  pointer  (2)]
+⎜   ↳ Microsoft Microsoft 5-Button Mouse with IntelliEye(TM)	id=8	[slave  pointer  (2)]
+⎜   ↳ Logitech USB Optical Mouse              	id=9	[slave  pointer  (2)]
+⎣ Virtual core keyboard                   	id=3	[master keyboard (2)]
+    ↳ Virtual core XTEST keyboard             	id=5	[slave  keyboard (3)]
+    ↳ Power Button                            	id=6	[slave  keyboard (3)]
+    ↳ Power Button                            	id=7	[slave  keyboard (3)]
+    ↳ Yubico Yubico Yubikey II                	id=10	[slave  keyboard (3)]
+    ↳ Dell Dell Smart Card Reader Keyboard    	id=11	[slave  keyboard (3)]
+    ↳ HID 13ba:0001                           	id=12	[slave  keyboard (3)]
+$ xinput disable 12
+```
+
+## Setting permissions
+This ultimately should be done using a .rules file in /etc/udev/udev.rules
+At the moment of writing, however, I have not been able to determine the proper syntax to have it set the event-file for the 13ba:0001 USB-device to the proper permission
+
+By hand, it's obvious:
+```
+# chmod a+r /dev/input/event14
+```

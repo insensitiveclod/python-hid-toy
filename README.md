@@ -32,13 +32,16 @@ See below for more info on setting up the event-file so it can be read by generi
 
 
 First create a directory and set up a python3 virtual env
-```$ mkdir hid-reader
+```
+$ mkdir hid-reader
 $ cd hid-reader
-$python3 -m venv venv```
+$python3 -m venv venv
+```
 
 
 Then, activate the environment and install the required python modules using pip
-```$. venv/bin/activate
+```
+$. venv/bin/activate
 $pip3 install -r requirements.txt
 ```
 
